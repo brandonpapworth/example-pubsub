@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var _ = require('underscore')._;
-var repubsub = require('./repubsub.js');
+var repubsub = require('./repubsub');
 
 module.exports = {
     regexPublish: regexPublish,
@@ -43,7 +43,7 @@ function regexSubscribe() {
     var queue = exchange.queue(function(topic){
         return topic.match(topicRegex);
     });
-    
+
     var subMessage = "Subscribed to: " + topicRegex;
     printSubscription(subMessage);
 
@@ -70,7 +70,7 @@ function tagsPublish(){
         var topicTags = _.union(_.values(randomTopic()),
                                 _.values(randomTopic())).sort();
         var payload = _.sample(TEAMUPS.concat(EVENTS).concat(FIGHTS));
-        
+
         console.log('Publishing on tags #' + topicTags.join(' #'));
         console.log('\t' + payload);
 
@@ -93,7 +93,7 @@ function tagsSubscribe(){
     var i = 0;
     queue.subscribe(function(topic, payload){
         if(i % 10 === 9){
-            // Reminder what we're subscribed to 
+            // Reminder what we're subscribed to
             printSubscription(subMessage);
         }
         console.log("Received message with tags: #" + topic.join(' #'));
@@ -126,7 +126,7 @@ function hierarchySubscribe(){
     var queue = exchange.queue(function(topic){
         return topic(rnd.category)(rnd.chartype).contains(rnd.character);
     });
-    var subMessage = "Subscribed to topic('" + rnd.category + "')('" + 
+    var subMessage = "Subscribed to topic('" + rnd.category + "')('" +
             rnd.chartype + "').contains('" + rnd.character + "')";
     printSubscription(subMessage);
 
